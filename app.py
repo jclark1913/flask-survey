@@ -17,5 +17,7 @@ def index():
     instructions = survey.instructions
     return render_template('survey_start.html', title=title, instructions=instructions)
 
-@app.get("/begin")
+@app.post("/begin")
 def start_survey():
+
+    return redirect("/questions/0")
