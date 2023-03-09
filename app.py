@@ -19,5 +19,15 @@ def index():
 
 @app.post("/begin")
 def start_survey():
+    question_number = 0
+    return redirect("/questions")
 
-    return redirect("/questions/0")
+@app.route("/questions")
+def show_question():
+    prompt = survey.questions[0].prompt
+    choices = survey.questions[0].choices
+    print("Redirect successful")
+    return render_template('question.html', prompt=prompt, choices=choices)
+
+# @app.post("/answer")
+# def answer_question():
