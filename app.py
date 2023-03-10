@@ -9,7 +9,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 response = []
-
+# question_number = 0
 
 @app.get("/")
 def index():
@@ -19,15 +19,22 @@ def index():
 
 @app.post("/begin")
 def start_survey():
-    question_number = 0
-    return redirect("/questions")
+    
+    return redirect("/questions/0")
 
-@app.route("/questions")
-def show_question():
-    prompt = survey.questions[0].prompt
-    choices = survey.questions[0].choices
+@app.get("/questions/<int:question_number>")
+def show_question(question_number):
+
+    prompt = survey.questions[question_number].prompt
+    choices = survey.questions[question_number].choices
     print("Redirect successful")
     return render_template('question.html', prompt=prompt, choices=choices)
 
-# @app.post("/answer")
-# def answer_question():
+@app.post("/answer")
+def answer_question():
+    answer = request.form.get("answer")
+    print('answer', answer)
+    response.append(answer)
+    page_number = len(response)
+    return redirect("/questions/")
+
